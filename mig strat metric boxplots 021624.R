@@ -4,28 +4,31 @@
 # March 2022
 
 # data
-setwd('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\metric_results')
-amav <- read.csv('amav_mig_metrics_030322_2hr.csv')
-bbpl <- read.csv('bbpl_mig_metrics_030322_2hr.csv')
-hugo <- read.csv('hugo_mig_metrics_030322_2hr.csv')
+# everything in this commented out section I'm pretty sure goes into the MC data all file...
+#setwd('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\metric_results')
+#amav <- read.csv('amav_mig_metrics_030322_2hr.csv')
+#bbpl <- read.csv('bbpl_mig_metrics_030322_2hr.csv')
+#hugo <- read.csv('hugo_mig_metrics_030322_2hr.csv')
 
-amav$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\amav_travel_to_stopover.rds')
-bbpl$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\bbpl_travel_to_stopover.rds')
-hugo$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\hugo_travel_to_stopover.rds')
+#amav$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\amav_travel_to_stopover.rds')
+#bbpl$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\bbpl_travel_to_stopover.rds')
+#hugo$travel_to_stopover <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\hugo_travel_to_stopover.rds')
 
-amav$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\amav_total_stop_duration.rds')
-bbpl$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\bbpl_total_stop_duration.rds')
-hugo$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\hugo_total_stop_duration.rds')
+#amav$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\amav_total_stop_duration.rds')
+#bbpl$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\bbpl_total_stop_duration.rds')
+#hugo$total_stop_duration <- readRDS('G:\\My Drive\\shorebirds\\analysis_code\\migration_strategies\\updated_analysis_feb24\\hugo_total_stop_duration.rds')
 
-met <- rbind(amav, bbpl, hugo)
-head(met)
-nrow(met)
+#met <- rbind(amav, bbpl, hugo)
+#head(met)
+#nrow(met)
 # 45
 
-met$dist_per_day <- met$mig_dist_km/met$mig_duration
-met$dist_per_day[which(met$id==190092)] <- NA
+#met$dist_per_day <- met$mig_dist_km/met$mig_duration
+#met$dist_per_day[which(met$id==190092)] <- NA
 
 #write.csv(met, "MC_Shorebird_Metric_Data_All_021624.csv")
+
+met <- read.csv("MC_Shorebird_Metric_Data_All_021624.csv")
 
 boxplot(travel_to_stopover~species, data=met) # hugo have more travel per day of stopover, amav have the most variation (the crazy one is legit)
 # makes sense given the hardcore first flight of HUGO
@@ -50,6 +53,8 @@ boxplot(travel_to_stopover~species, data=test_sub) # it doesn't change a ton eve
 #  Amy used for WFG total migration distance to minimize effect of stopovers for longer WFG migration
 
 # New added 2024 - 
+# travel_to_stopover is ratio of stopover days to travel distance, supposed to help differentiate between time minimizing and
+# energy minimizing strategies
 
 # plots 
 # 2. One box plot for each migration metric with one box for each species (9 total)
@@ -85,7 +90,6 @@ mtext('AMAV', side=1, line=1, at=1, cex=1.5)
 mtext('BBPL', side=1, line=1, at=2, cex=1.5)
 mtext('HUGO', side=1, line=1, at=3, cex=1.5)
 mtext('Number of Stopovers', side=2, line=2.2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 lines(x=c(1,3), y=c(16,16), lwd=2)
 lines(x=c(2,3), y=c(15.5,15.5), lwd=2)
 box()
@@ -103,7 +107,6 @@ mtext('AMAV', side=1, line=1, at=1, cex=1.5)
 mtext('BBPL', side=1, line=1, at=2, cex=1.5)
 mtext('HUGO', side=1, line=1, at=3, cex=1.5)
 mtext('Days', side=2, line=2.2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 lines(x=c(1,3), y=c(45,45), lwd=2)
 lines(x=c(2,3), y=c(44,44), lwd=2)
 box()
@@ -120,7 +123,6 @@ mtext('AMAV', side=1, line=1, at=1, cex=1.5)
 mtext('BBPL', side=1, line=1, at=2, cex=1.5)
 mtext('HUGO', side=1, line=1, at=3, cex=1.5)
 mtext('Proportion', side=2, line=2.2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 lines(x=c(2,3), y=c(1,1), lwd=2)
 box()
 
@@ -137,7 +139,6 @@ mtext('AMAV', side=2, line=1, at=1, cex=1.2)
 mtext('BBPL', side=2, line=1, at=2, cex=1.2)
 mtext('HUGO', side=2, line=1, at=3, cex=1.2)
 mtext('Day of Year', side=1, line=2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 lines(y=c(1,3), x=c(74,74), lwd=2)
 lines(y=c(1,2), x=c(75,75), lwd=2)
 lines(y=c(2,3), x=c(76,76), lwd=2)
@@ -155,7 +156,6 @@ mtext('AMAV', side=2, line=1, at=1, cex=1.2)
 mtext('BBPL', side=2, line=1, at=2, cex=1.2)
 mtext('HUGO', side=2, line=1, at=3, cex=1.2)
 mtext('Day of Year', side=1, line=2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 lines(y=c(1,2), x=c(115,115), lwd=2)
 lines(y=c(2,3), x=c(116,116), lwd=2)
 box()
@@ -173,7 +173,6 @@ mtext('AMAV', side=1, line=1, at=1, cex=1.5)
 mtext('BBPL', side=1, line=1, at=2, cex=1.5)
 mtext('HUGO', side=1, line=1, at=3, cex=1.5)
 mtext('Hours', side=2, line=2.2, cex=1.2)
-#legend('topleft', legend = c("Louisiana", "Texas"), fill=c("gray40", "black"), bty='n',  y.intersp = 0.5)
 box()
 
 
