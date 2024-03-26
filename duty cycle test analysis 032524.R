@@ -89,16 +89,18 @@ res_nstop <- data.frame(ppd=c(3,6,12), duty_cycle=c( "8-Hr", "4-Hr", "2-Hr"),
                       hci=as.numeric(confint(nstoplm)[,2])[2:4])
 pa <- ggplot(res_nstop)+
   geom_point(aes(x=as.factor(ppd), y=mean), size=4)+
-  theme_bw(base_size=18)+
+  theme_bw(base_size=14)+
   geom_errorbar(aes(x=as.factor(ppd), ymin=lci, ymax=hci, width=0.1), linewidth=1)+
   scale_x_discrete(labels=c('8','4','2'))+
-  xlab('Time between locations (hours)')+
+  xlab('')+
   ylab('Effect Sizes')+
-  ggtitle('(A) Number of Stopovers')+
+  ggtitle('(A) Number of\n     Stopovers')+
   ylim(c(0,8.8))+
   geom_hline(yintercept=0, color='gray50', linewidth=1, linetype='dashed')+
-  annotate("text", label='24 hours: Reference', size=4,hjust=0,x=0.5, y=0.3, color='gray50')+
-  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())
+  annotate("text", label='24 hours', size=5,hjust=0,x=0.5, y=0.3, color='gray50')+
+  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
+        axis.text.x=element_text(size=16), axis.text.y=element_text(size=14),
+        plot.title=element_text(size=14))
 pa
   
 
@@ -120,16 +122,18 @@ res_stopdur <- data.frame(ppd=c(3,6,12), duty_cycle=c( "8-Hr", "4-Hr", "2-Hr"),
                         hci=as.numeric(confint(stopdurlm)[,2])[2:4])
 pb <- ggplot(res_stopdur)+
   geom_point(aes(x=as.factor(ppd), y=mean), size=4)+
-  theme_bw(base_size=18)+
+  theme_bw(base_size=14)+
   geom_errorbar(aes(x=as.factor(ppd), ymin=lci, ymax=hci, width=0.1), linewidth=1)+
   scale_x_discrete(labels=c('8','4','2'))+
   xlab('Time between locations (hours)')+
-  ylab('Effect Sizes')+
-  ggtitle('(B) Mean Stopover Duration')+
+  ylab('')+
+  ggtitle('(B) Mean Stopover\n     Duration')+
   #ylim(c(0,8.8))+
   geom_hline(yintercept=0, color='gray50', linewidth=1, linetype='dashed')+
-  annotate("text", label='24 hours: Reference', size=4,hjust=0,x=0.5, y=-1.2, color='gray50')+
-  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())
+  annotate("text", label='24 hours', size=5,hjust=0,x=0.5, y=-1.2, color='gray50')+
+  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
+        axis.text.x=element_text(size=16), axis.text.y=element_text(size=14),
+        plot.title=element_text(size=14), axis.title.x=element_text(size=13))
 pb
 
 
@@ -150,16 +154,18 @@ res_stopstep <- data.frame(ppd=c(3,6,12), duty_cycle=c( "8-Hr", "4-Hr", "2-Hr"),
                           hci=as.numeric(confint(stopsteplm)[,2])[2:4])
 pc <- ggplot(res_stopstep)+
   geom_point(aes(x=as.factor(ppd), y=mean), size=4)+
-  theme_bw(base_size=18)+
+  theme_bw(base_size=14)+
   geom_errorbar(aes(x=as.factor(ppd), ymin=lci, ymax=hci, width=0.1), linewidth=1)+
   scale_x_discrete(labels=c('8','4','2'))+
-  xlab('Time between locations (hours)')+
-  ylab('Effect Sizes')+
-  ggtitle('(C) Mean Stopover Step Length')+
+  xlab('')+
+  ylab('')+
+  ggtitle('(C) Mean Stopover\n     Step Length')+
   #ylim(c(0,8.8))+
   geom_hline(yintercept=0, color='gray50', linewidth=1, linetype='dashed')+
-  annotate("text", label='24 hours: Reference', size=4,hjust=0,x=0.5, y=-1.2, color='gray50')+
-  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())
+  annotate("text", label='24 hours', size=5,hjust=0,x=0.5, y=-0.15, color='gray50')+
+  theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank(),
+        axis.text.x=element_text(size=16), axis.text.y=element_text(size=14), 
+        plot.title=element_text(size=14))
 pc
 
 prstoplm <- lm(prstop ~ as.factor(ppd), data=dt)
@@ -167,6 +173,8 @@ summary(prstoplm)
 prstoplm$coefficients
 confint(prstoplm)
 rsquare(prstoplm, dt) # 0.16
+
+ggarrange(pa, pb, pc, nrow=1, ncol=3)
 
 #test2 <- lm(mig_duration ~ species + as.factor(ppd), data=dt)
 #summary(test2)
