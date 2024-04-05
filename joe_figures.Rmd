@@ -1,0 +1,316 @@
+# Project: Migration strategies in three shorebird species
+<font size="+1"> Assessing variation in migration strategy among three species of shorebirds with substantial differences in migration distance: American avocets (<i>Recurvirostra americana</i>, AMAV; short distance), Black-bellied plovers (<i>Pluvialis squatarola</i>, BBPL; medium distance), and Hudsonian godwits (<i>Limosa haemastica</i>, HUGO, long distance).  </font>
+
+## Specific Aim: Regenerating plots for Figures
+<font size="+1"> Regenerating figures for the ms.  </font>
+
+### Libraries needed for plotting
+```{r}
+library(tidyverse)
+library(cowplot)
+library(readxl)
+library(scales)
+library(tidytext)
+library(plyr)
+```
+### REGENERATE MAIN TEXT FIGURES
+
+### STEP 1: Convert distances to kilometers in the data set for easier plotting; run the Rmd chunk below.
+
+##### Convert distances to kilometers
+```{r}
+# Read in full dataset
+met <- read.csv("MC_Shorebird_Metric_Data_All_021624.csv")
+
+# Convert distance to kilometers
+met_km <- met %>%
+  mutate(mig_dist_km = mig_dist/1000)
+
+# Save converted dataset for plotting
+save(met_km, file = "met_km.Rda")
+```
+
+### STEP 2: Generate Figure 3 -  Visualization of migration metric comparisons among three species, including raw data; run the Rmd chunk below.
+Here we are visualizing differences in six different migration metrics among the three shorebird species.
+
+##### Figure 3: `figures/fig3.pdf`
+```{r}
+# Load kilometer data
+load("met_km.Rda")
+
+# Set number of decimal places for data
+options(scipen = 999)
+
+# Fig3a
+a <- ggplot(met_km, aes(x = species, y = mig_dist_km, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Distance (km)") +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=label_number(suffix = "K", scale = 1e-3), limits = c(0,NA)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(axis.title.x = element_blank()) +
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3b
+b <- ggplot(met_km, aes(x = species, y = nstop, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Number of stopovers") +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,15)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(axis.title.x = element_blank()) +
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3c
+c <- ggplot(met_km, aes(x = species, y = mig_duration, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Duration (days)") +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,NA)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(axis.title.x = element_blank()) +
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3d
+d <- ggplot(met_km, aes(x = species, y = prstop, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Proportion time in stopover") +
+  ylim(0,1) +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ".", scientific = FALSE), limits = c(0,1)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3e
+e <- ggplot(met_km, aes(x = species, y = mean_stop_duration, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Mean stop duration (hours)") +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,NA)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3f
+f <- ggplot(met_km, aes(x = species, y = travel_to_stopover, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Distance/day stopped (km)") +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  scale_y_continuous(labels=label_number(suffix = "K", scale = 1e-3), limits = c(0,NA)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Full figure 3
+pdf("figures/fig3.pdf", width = 13, height = 8)
+
+plot_grid(a,
+          b,
+          c,
+          d,
+          e,
+          f,
+          nrow = 2,
+          ncol = 3)
+
+dev.off()
+```
+
+### STEP 3: Generate Figure 4 - Visualization of migration period (departure date to arrival date); run the Rmd chunk below.
+
+##### Figure 4: `figures/fig4.pdf`
+```{r}
+# Load kilometer data
+load("met_km.Rda")
+
+# rename "X.1" variable to "ind" just to not have the "." cuz I don't like "."s
+met_km <- met_km %>%
+  dplyr::rename(ind = X.1)
+
+# convert ind to factor
+met_km <- met_km %>%
+  mutate(ind = factor(ind))
+
+# Group ind by species, and put them in order by depart time within species
+met_km <- met_km %>%
+  group_by(species) %>%
+  mutate(ind = tidytext::reorder_within(ind, depart_time, species))
+
+# Fig 4a
+a <- ggplot(data = met_km) + 
+  # geom_vline(xintercept = 110.2857, color = "deepskyblue4", size = 1, linetype = "dotted", alpha = 0.2) +
+  # geom_vline(xintercept = 129.8571, color = "deepskyblue4", size = 1, linetype = "solid", alpha = 0.2) +
+  # geom_vline(xintercept = 100.8571, color = "darkorange3", size = 1, linetype = "dotted", alpha = 0.2) +
+  # geom_vline(xintercept = 136.2857, color = "darkorange3", size = 1, linetype = "solid", alpha = 0.2) +
+  # geom_vline(xintercept = 136.5417, color = "black", size = 1, linetype = "dotted", alpha = 0.2) +
+  # geom_vline(xintercept = 159.3333, color = "black", size = 1, linetype = "solid", alpha = 0.2) +
+    geom_segment(aes(x = (depart_time-0.2), 
+                   y = ind, 
+                   xend = (arrive_time+0.2), 
+                   yend = ind, 
+                   color = species), 
+               size = 3, 
+               color = "black") +
+  geom_segment(aes(x = depart_time, 
+                   y = ind, 
+                   xend = arrive_time, 
+                   yend = ind, 
+                   color = species), 
+               size = 2) +
+  scale_color_manual(values=c('deepskyblue4', 'grey30', 'darkorange3')) +
+  labs(x = "Ordinal day of year", y = "Individual", color = "Species") +
+  theme(axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 20),
+        axis.title = element_text(size = 20)) +
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+  theme(plot.margin = margin(10,10,10,10)) +
+  theme(legend.position = c(0.04,0.23)) +
+  theme(legend.text = element_text(size = 15)) + 
+  theme(legend.title = element_text(size = 15, face = "bold")) + 
+  theme(legend.background = element_rect(linetype = "solid", size = 0.5, color = "black")) + 
+  theme(legend.margin = margin(5, 5, 5, 5))
+
+met_km_gather <- met_km %>%
+  gather(depart_time:arrive_time, key = "time_type", value = "day")
+
+met_km_gather$time_type <- revalue(met_km_gather$time_type, c("depart_time" = "Date of departure", "arrive_time" = "Date of arrival"))
+
+met_km_gather$time_type <- factor(met_km_gather$time_type, levels = c("depart_time", "arrive_time"))
+
+# Fig 4b
+b <- ggplot(met_km_gather, aes(x = day, y = species, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  facet_wrap(~time_type) +
+  labs(x = "Ordinal day of year", y = "Species") +
+  theme(strip.background = element_rect(fill = "white", size = 1)) +
+  theme(strip.text = element_blank()) +
+  theme(panel.background = element_rect(color = "black", fill = "white", size = 1, linetype = "solid")) +
+  scale_fill_manual(values=c("#2166ac","black", "darkorange3")) + 
+  theme(axis.ticks.y = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.text.y = element_blank()) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Plot igure 4
+pdf("figures/fig4.pdf", width = 12, height = 6)
+
+plot_grid(a,
+          b,
+          nrow = 1,
+          ncol = 2)
+
+dev.off()
+```
+
+### PHASE 2: REGENERATE SUPPLEMENTARY FIGURES
+
+### STEP 1: Convert distances to kilometers in the data set for easier plotting; run the Rmd chunk below.
+
+##### Convert distances to kilometers
+```{r}
+full <- read_csv("bbpl_hugo_mig_metrics_1d.csv")
+
+# Convert distance to kilometers
+full_km <- full %>%
+  mutate(mig_dist_km = mig_dist/1000)
+
+# Save converted dataset for plotting
+save(full_km, file = "full_km.Rda")
+```
+
+### STEP 2: Generate Figure S3 - isualization of migration metric differences for 24-hour duty cycle (complete data) only: BBPL and HUGO.
+
+##### Figure S3: `figures/figS3.pdf`
+```{r}
+# Load full kilometer data
+load("full_km.Rda")
+
+# Set number of decimal places for data
+options(scipen = 999)
+
+# Fig3a
+a <- ggplot(full_km, aes(x = species, y = mig_duration, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Duration (days)") +
+  scale_fill_manual(values=c("black", "darkorange3")) + 
+  scale_y_continuous(limits = c(0,NA)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3b
+b <- ggplot(full_km, aes(x = species, y = depart_time, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Ordinal day of year") +
+  scale_fill_manual(values=c("black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,150)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Fig3c
+c <- ggplot(full_km, aes(x = species, y = arrive_time, fill = species)) +
+  geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  theme_set(theme_cowplot(12)) +
+  labs(x = "Species", y = "Ordinal day of year") +
+  scale_fill_manual(values=c("black", "darkorange3")) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,150)) +
+  theme(axis.ticks.x = element_blank()) +
+  theme(axis.text = element_text(size = 20)) +
+  theme(axis.title = element_text(size = 20)) + 
+  theme(panel.border = element_rect(colour = "black", fill = NA, size = 1)) +
+  theme(plot.margin = margin(10,10,10,10)) 
+
+# Full figure 3
+pdf("figures/figS3.pdf", width = 13, height = 4)
+
+plot_grid(a,
+          b,
+          c,
+          nrow = 1,
+          ncol = 3)
+
+dev.off()
+```
