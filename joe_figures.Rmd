@@ -46,7 +46,7 @@ a <- ggplot(met_km, aes(x = species, y = mig_dist_km, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F, outlier.alpha = 0) +
   geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "gray20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Total Migration\nDistance (km)") +
+  labs(x = "Species", y = "Total migration\ndistance (km)") +
   scale_fill_manual(values=c("#2166ac","grey40", "darkorange3")) + 
   scale_y_continuous(labels=label_number(suffix = "K", scale = 1e-3), limits = c(0,NA)) +
   theme(axis.ticks.x = element_blank()) +
@@ -85,7 +85,7 @@ c <- ggplot(met_km, aes(x = species, y = mig_duration, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F, outlier.alpha = 0) +
   geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Migration\nDuration (days)") +
+  labs(x = "Species", y = "Migration\nduration (days)") +
   scale_fill_manual(values=c("#2166ac","grey40", "darkorange3")) + 
   scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(0,NA)) +
   theme(axis.ticks.x = element_blank()) +
@@ -104,7 +104,7 @@ d <- ggplot(met_km, aes(x = species, y = prstop, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F, outlier.alpha = 0) +
   geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Proportion pf\n Time stopped over") +
+  labs(x = "Species", y = "Proportion of\n time stopped over") +
   #ylab(expression(P["Time stopped over"])) +
   ylim(0,1) +
   scale_fill_manual(values=c("#2166ac","grey40", "darkorange3")) + 
