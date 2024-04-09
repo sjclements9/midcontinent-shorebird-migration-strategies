@@ -147,7 +147,7 @@ f <- ggplot(met_km, aes(x = species, y = travel_to_stopover, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F, outlier.alpha = 0) +
   geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Distance/day\n stopped (km)") +
+  labs(x = "Species", y = "Travel to stopover\nratio (km)") +
   scale_fill_manual(values=c("#2166ac","grey40", "darkorange3")) + 
   scale_y_continuous(labels=label_number(suffix = "K", scale = 1e-3), limits = c(0,NA)) +
   theme(axis.ticks.x = element_blank()) +
@@ -321,9 +321,9 @@ options(scipen = 999)
 # Fig3a
 a <- ggplot(full_km, aes(x = species, y = mig_duration, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F, outlier.alpha = 0) +
-  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Duration (days)") +
+  labs(x = "Species", y = "Migration\nDuration (days)") +
   scale_fill_manual(values=c("grey40", "darkorange3")) + 
   scale_y_continuous(limits = c(0,NA)) +
   theme(axis.ticks.x = element_blank()) +
@@ -335,9 +335,9 @@ a <- ggplot(full_km, aes(x = species, y = mig_duration, fill = species)) +
 # Fig3b
 b <- ggplot(full_km, aes(x = species, y = depart_time, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
-  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Ordinal day of year") +
+  labs(x = "Species", y = "Departure Time\n(Ordinal day)") +
   scale_fill_manual(values=c("grey40", "darkorange3")) + 
   scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(90,150)) +
   theme(axis.ticks.x = element_blank()) +
@@ -349,9 +349,9 @@ b <- ggplot(full_km, aes(x = species, y = depart_time, fill = species)) +
 # Fig3c
 c <- ggplot(full_km, aes(x = species, y = arrive_time, fill = species)) +
   geom_boxplot(color = "black", alpha = 0.9, show.legend = F) +
-  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey") +
+  geom_point(position = position_jitter(width = 0.2), pch = 21, size = 3, fill = "grey20", alpha=0.5) +
   theme_set(theme_cowplot(12)) +
-  labs(x = "Species", y = "Ordinal day of year") +
+  labs(x = "Species", y = "Arrival Time\n(Ordinal day)") +
   scale_fill_manual(values=c("grey40", "darkorange3")) + 
   scale_y_continuous(labels=function(x) format(x, big.mark = ",", decimal.mark = ",", scientific = FALSE), limits = c(130,150)) +
   theme(axis.ticks.x = element_blank()) +
