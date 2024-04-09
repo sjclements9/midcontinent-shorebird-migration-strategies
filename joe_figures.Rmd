@@ -4,15 +4,22 @@
 ## Specific Aim: Regenerating plots for Figures
 <font size="+1"> Regenerating figures for the ms.  </font>
 
-### Libraries needed for plotting
+### Libraries needed for plotting (Figures 3, 4a, S3)
 ```{r}
+# Load these libraries to generate Figures 3, 4a, and S3
 library(tidyverse)
 library(cowplot)
 library(readxl)
 library(scales)
 library(tidytext)
+```
+
+### Libraries needed for plotting (Figures 4b)
+```{r}
+# Don't load until ready to generate Fig 4b
 library(plyr)
 ```
+
 ### REGENERATE MAIN TEXT FIGURES
 
 ### STEP 1: Convert distances to kilometers in the data set for easier plotting; run the Rmd chunk below.
